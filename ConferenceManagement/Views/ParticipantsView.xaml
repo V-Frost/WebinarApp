@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="WebinarApp.Views.ParticipantsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Список учасників" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" Grid.Row="0"/>
+
+        <!-- Додаємо PreviewKeyDown -->
+        <DataGrid x:Name="ParticipantsDataGrid" ItemsSource="{Binding Participants}" 
+                  AutoGenerateColumns="False" CanUserSortColumns="True" 
+                  SelectedItem="{Binding SelectedParticipant}"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  Margin="0,10,0,10" Grid.Row="1"
+                  PreviewKeyDown="ParticipantsDataGrid_PreviewKeyDown">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ім'я" Binding="{Binding FirstName}" Width="*"/>
+                <DataGridTextColumn Header="Прізвище" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn Header="Номер телефону" Binding="{Binding PhoneNumber}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0" Grid.Row="2">
+            <Button Content="Додати" Width="100" Margin="5" Command="{Binding AddCommand}"/>
+            <Button Content="Редагувати" Width="100" Margin="5" Command="{Binding EditCommand}"/>
+            <Button Content="Видалити" Width="100" Margin="5" Command="{Binding DeleteCommand}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

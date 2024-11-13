@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="WebinarApp.Views.WebinarRegistrationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <DataGrid x:Name="RegistrationsDataGrid" ItemsSource="{Binding Registrations}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата реєстрації" Binding="{Binding RegistrationDate, StringFormat=d}" Width="*"/>
+                <DataGridTextColumn Header="Учасник" Binding="{Binding ParticipantName}" Width="*"/>
+                <DataGridTextColumn Header="Вебінар" Binding="{Binding WebinarTopic}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
