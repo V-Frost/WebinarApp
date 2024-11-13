@@ -13,15 +13,9 @@ namespace WebinarApp.Views
             ShowLoginForm();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowLoginForm();
-        }
+        private void LoginButton_Click(object sender, RoutedEventArgs e) => ShowLoginForm();
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowRegisterForm();
-        }
+        private void RegisterButton_Click(object sender, RoutedEventArgs e) => ShowRegisterForm();
 
         private void ShowLoginForm()
         {
@@ -44,13 +38,9 @@ namespace WebinarApp.Views
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             if (ConfirmButton.Content.ToString() == "Вхід")
-            {
                 PerformLogin();
-            }
             else
-            {
                 PerformRegistration();
-            }
         }
 
         private void PerformLogin()
@@ -69,9 +59,25 @@ namespace WebinarApp.Views
                 var user = context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
                 if (user != null)
                 {
+                    // Зберігаємо користувача в сеансі
+                    Session.CurrentUser = user;
+
+                    // Відображення повідомлення для перевірки
                     MessageBox.Show(user.Role == "Admin" ? "Вхід як адміністратор" : "Вхід як користувач", "Вхід");
 
-                    Session.CurrentUser = user;
+                    // Відкриваємо відповідний інтерфейс залежно від ролі
+                    if (user.Role == "Admin")
+                    {
+                        var mainWindow = new MainWindow();
+                        mainWindow.Show(); // Використовуємо Show для адміністратора
+                    }
+                    else
+                    {
+                        var userWindow = new UserWebinarsWindow();
+                        userWindow.ShowDialog(); // Використовуємо ShowDialog для користувача
+                    }
+
+                    // Закриваємо вікно входу
                     this.DialogResult = true;
                     Close();
                 }
@@ -89,12 +95,6 @@ namespace WebinarApp.Views
             string confirmPassword = ConfirmPasswordBox.Password;
             string adminCode = AdminCodeTextBox.Text;
 
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(confirmPassword))
-            {
-                MessageBox.Show("Будь ласка, заповніть всі необхідні поля.");
-                return;
-            }
-
             if (password != confirmPassword)
             {
                 MessageBox.Show("Паролі не співпадають.");
@@ -103,27 +103,9 @@ namespace WebinarApp.Views
 
             string role = string.IsNullOrWhiteSpace(adminCode) ? "User" : "Admin";
 
-            if (role == "Admin" && adminCode != "Paton1932*112")
-            {
-                MessageBox.Show("Неправильний код адміністратора.");
-                return;
-            }
-
-            var newUser = new Users
-            {
-                Email = email,
-                Password = password,
-                Role = role
-            };
-
+            var newUser = new Users { Email = email, Password = password, Role = role };
             using (var context = new AppDbContext())
             {
-                if (context.Users.Any(u => u.Email == email))
-                {
-                    MessageBox.Show("Користувач з такою електронною адресою вже існує.");
-                    return;
-                }
-
                 context.Users.Add(newUser);
                 context.SaveChanges();
             }
@@ -132,6 +114,7 @@ namespace WebinarApp.Views
             MessageBox.Show("Реєстрація пройшла успішно!");
 
             this.DialogResult = true;
+            Close();
         }
     }
 }

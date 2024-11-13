@@ -103,7 +103,12 @@
     <Compile Include="Migrations\202411131129250_AddUserPrimaryKey.Designer.cs">
       <DependentUpon>202411131129250_AddUserPrimaryKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411131210245_UpdateDatabase.cs" />
+    <Compile Include="Migrations\202411131210245_UpdateDatabase.Designer.cs">
+      <DependentUpon>202411131210245_UpdateDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Users.cs" />
+    <Compile Include="ViewModels\UserWebinarsViewModel.cs" />
     <Compile Include="Views\LoginRegisterWindow.xaml.cs">
       <DependentUpon>LoginRegisterWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +129,15 @@
     </Compile>
     <Compile Include="Views\SpeakersView.xaml.cs">
       <DependentUpon>SpeakersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserWebinarsView.xaml.cs">
+      <DependentUpon>UserWebinarsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserWebinarsWindow.xaml.cs">
+      <DependentUpon>UserWebinarsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WebinarDetailsWindow.xaml.cs">
+      <DependentUpon>WebinarDetailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WebinarRegistrationsView.xaml.cs">
       <DependentUpon>WebinarRegistrationsView.xaml</DependentUpon>
@@ -156,6 +170,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SpeakersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserWebinarsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserWebinarsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WebinarDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411131129250_AddUserPrimaryKey.resx">
       <DependentUpon>202411131129250_AddUserPrimaryKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411131210245_UpdateDatabase.resx">
+      <DependentUpon>202411131210245_UpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

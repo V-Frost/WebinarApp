@@ -11,6 +11,9 @@ public class Webinar
     public string Link { get; set; }
     public string Status { get; set; }
 
+    // Додаємо властивість Category для категорії вебінару
+    public string Category { get; set; }
+
     // Зовнішній ключ до моделі Speaker
     public int SpeakerId { get; set; }
     public Speaker Speaker { get; set; }

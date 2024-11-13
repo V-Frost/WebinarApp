@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="WebinarApp.Views.UserWebinarsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Фільтри -->
+            <RowDefinition Height="*" />
+            <!-- Таблиця вебінарів -->
+            <RowDefinition Height="Auto" />
+            <!-- Перемикання по тижнях -->
+        </Grid.RowDefinitions>
+
+        <!-- Фільтр за категорією -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <TextBlock Text="Категорія:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <ComboBox x:Name="CategoryComboBox" Width="200" SelectedItem="{Binding SelectedCategory}" 
+                      ItemsSource="{Binding Categories}" DisplayMemberPath="CategoryName"/>
+        </StackPanel>
+
+        <!-- Таблиця вебінарів -->
+        <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding FilteredWebinars}"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" 
+                  SelectionMode="Single" Margin="0,10,0,10" Grid.Row="1"
+                  MouseDoubleClick="WebinarsDataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Тема" Binding="{Binding Topic}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
+                <DataGridTextColumn Header="Час початку" Binding="{Binding StartTime}" Width="*"/>
+                <DataGridTextColumn Header="Категорія" Binding="{Binding Category}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Перемикання по тижнях -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Margin="0,10,0,0">
+            <Button Content="Попередній тиждень" Command="{Binding PreviousWeekCommand}" Width="150" Margin="5"/>
+            <TextBlock Text="{Binding CurrentWeekText}" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0"/>
+            <Button Content="Наступний тиждень" Command="{Binding NextWeekCommand}" Width="150" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
