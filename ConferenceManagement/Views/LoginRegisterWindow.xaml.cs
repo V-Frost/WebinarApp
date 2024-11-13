@@ -66,26 +66,30 @@ namespace WebinarApp.Views
                     MessageBox.Show(user.Role == "Admin" ? "Вхід як адміністратор" : "Вхід як користувач", "Вхід");
 
                     // Відкриваємо відповідний інтерфейс залежно від ролі
+                    Window newWindow;
                     if (user.Role == "Admin")
                     {
-                        var mainWindow = new MainWindow();
-                        mainWindow.Show(); // Використовуємо Show для адміністратора
+                        newWindow = new MainWindow();
                     }
                     else
                     {
-                        var userWindow = new UserWebinarsWindow();
-                        userWindow.ShowDialog(); // Використовуємо ShowDialog для користувача
+                        newWindow = new UserWebinarsWindow();
                     }
 
+                    // Встановлюємо нове вікно як головне
+                    Application.Current.MainWindow = newWindow;
+                    newWindow.Show();
+
                     // Закриваємо вікно входу
-                    this.DialogResult = true;
-                    Close();
+                    this.Close();
                 }
                 else
                 {
                     MessageBox.Show("Невірний email або пароль", "Помилка входу", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+
+
         }
 
         private void PerformRegistration()
