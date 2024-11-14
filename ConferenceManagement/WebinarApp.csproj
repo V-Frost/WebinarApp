@@ -109,6 +109,9 @@
     </Compile>
     <Compile Include="Models\Users.cs" />
     <Compile Include="ViewModels\UserWebinarsViewModel.cs" />
+    <Compile Include="Views\DynamicEditWindow.xaml.cs">
+      <DependentUpon>DynamicEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginRegisterWindow.xaml.cs">
       <DependentUpon>LoginRegisterWindow.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,10 @@
     <Compile Include="Views\WebinarsView.xaml.cs">
       <DependentUpon>WebinarsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DynamicEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginRegisterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

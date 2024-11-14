@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WebinarApp.Views">
     <Grid>
-        <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding Webinars}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding Webinars}" AutoGenerateColumns="False"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Редагувати" Click="EditMenuItem_Click"/>

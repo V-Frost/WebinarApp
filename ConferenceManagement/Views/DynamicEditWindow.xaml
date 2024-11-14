@@ -1,0 +1,11 @@
+﻿<Window x:Class="WebinarApp.Views.DynamicEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редагування" Height="400" Width="400">
+    <StackPanel Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="FieldsPanel"/>
+        </ScrollViewer>
+        <Button Content="Зберегти" Click="SaveButton_Click" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>
