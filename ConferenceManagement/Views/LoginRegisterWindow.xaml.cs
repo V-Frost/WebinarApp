@@ -13,9 +13,19 @@ namespace WebinarApp.Views
             ShowLoginForm();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e) => ShowLoginForm();
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowLoginForm();
+            LoginButton.Style = (Style)FindResource("ActiveButtonStyle");
+            RegisterButton.Style = (Style)FindResource("InactiveButtonStyle");
+        }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e) => ShowRegisterForm();
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowRegisterForm();
+            RegisterButton.Style = (Style)FindResource("ActiveButtonStyle");
+            LoginButton.Style = (Style)FindResource("InactiveButtonStyle");
+        }
 
         private void ShowLoginForm()
         {
@@ -24,6 +34,7 @@ namespace WebinarApp.Views
             AdminCodeLabel.Visibility = Visibility.Collapsed;
             AdminCodeTextBox.Visibility = Visibility.Collapsed;
             ConfirmButton.Content = "Вхід";
+            Height = 400;
         }
 
         private void ShowRegisterForm()
@@ -33,6 +44,8 @@ namespace WebinarApp.Views
             AdminCodeLabel.Visibility = Visibility.Visible;
             AdminCodeTextBox.Visibility = Visibility.Visible;
             ConfirmButton.Content = "Реєстрація";
+            Height = 450;
+            ContentPanel.Margin = new Thickness(0, 80, 0, 0);
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
@@ -59,13 +72,9 @@ namespace WebinarApp.Views
                 var user = context.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
                 if (user != null)
                 {
-                    // Зберігаємо користувача в сеансі
                     Session.CurrentUser = user;
-
-                    // Відображення повідомлення для перевірки
                     MessageBox.Show(user.Role == "Admin" ? "Вхід як адміністратор" : "Вхід як користувач", "Вхід");
 
-                    // Відкриваємо відповідний інтерфейс залежно від ролі
                     Window newWindow;
                     if (user.Role == "Admin")
                     {
@@ -73,14 +82,12 @@ namespace WebinarApp.Views
                     }
                     else
                     {
-                        newWindow = new UserWebinarsWindow();
+                        // Використовуємо UserWebinarsView як вікно
+                        newWindow = new UserWebinarsView();
                     }
 
-                    // Встановлюємо нове вікно як головне
                     Application.Current.MainWindow = newWindow;
                     newWindow.Show();
-
-                    // Закриваємо вікно входу
                     this.Close();
                 }
                 else
@@ -88,8 +95,6 @@ namespace WebinarApp.Views
                     MessageBox.Show("Невірний email або пароль", "Помилка входу", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
-
         }
 
         private void PerformRegistration()
@@ -97,7 +102,7 @@ namespace WebinarApp.Views
             string email = EmailTextBox.Text;
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
-            string adminCode = AdminCodeTextBox.Text;
+            string adminCode = AdminCodeTextBox.Password;
 
             if (password != confirmPassword)
             {
@@ -105,39 +110,50 @@ namespace WebinarApp.Views
                 return;
             }
 
-            string role = string.IsNullOrWhiteSpace(adminCode) ? "User" : "Admin";
-
-            var newUser = new Users { Email = email, Password = password, Role = role };
             using (var context = new AppDbContext())
             {
+                if (context.Users.Any(u => u.Email == email))
+                {
+                    MessageBox.Show("Користувач з такою електронною адресою вже зареєстрований.");
+                    return;
+                }
+
+                string role;
+                if (adminCode == "Paton1932*112")
+                {
+                    role = "Admin";
+                }
+                else if (string.IsNullOrWhiteSpace(adminCode))
+                {
+                    role = "User";
+                }
+                else
+                {
+                    MessageBox.Show("Невірний код адміністратора.");
+                    return;
+                }
+
+                var newUser = new Users { Email = email, Password = password, Role = role };
                 context.Users.Add(newUser);
                 context.SaveChanges();
+
+                Session.CurrentUser = newUser;
+                MessageBox.Show("Реєстрація пройшла успішно!");
+
+                Window newWindow;
+                if (newUser.Role == "Admin")
+                {
+                    newWindow = new MainWindow();
+                }
+                else
+                {
+                    newWindow = new UserWebinarsView();
+                }
+
+                Application.Current.MainWindow = newWindow;
+                newWindow.Show();
+                this.Close();
             }
-
-            // Зберігаємо нового користувача в сеансі
-            Session.CurrentUser = newUser;
-            MessageBox.Show("Реєстрація пройшла успішно!");
-
-            // Автоматично відкриваємо інтерфейс користувача після реєстрації
-            Window newWindow;
-            if (newUser.Role == "Admin")
-            {
-                newWindow = new MainWindow();
-            }
-            else
-            {
-                newWindow = new UserWebinarsWindow();
-            }
-
-            // Встановлюємо нове вікно як головне
-            Application.Current.MainWindow = newWindow;
-            newWindow.Show();
-
-            // Закриваємо вікно реєстрації
-            this.Close();
         }
     }
 }
-
-
-

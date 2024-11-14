@@ -1,20 +1,32 @@
 ﻿<Window x:Class="WebinarApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Webinar Management System"
-        Height="600" Width="800"
+        Title="Webinar Management System" Height="600" Width="800"
         WindowState="Maximized">
 
+    <Window.Resources>
+        <!-- Універсальне контекстне меню для DataGrid -->
+        <ContextMenu x:Key="UniversalContextMenu">
+            <MenuItem Header="Редагувати" Click="EditMenuItem_Click"/>
+            <MenuItem Header="Видалити" Click="DeleteMenuItem_Click"/>
+        </ContextMenu>
+
+        <!-- Стиль для DataGrid з автоматичним контекстним меню -->
+        <Style TargetType="DataGrid">
+            <Setter Property="ContextMenu" Value="{StaticResource UniversalContextMenu}"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <!-- Панель навігації з кнопками -->
+        <!-- Панель навігації -->
         <StackPanel Orientation="Vertical" Width="200" Background="#FF2D2D30" HorizontalAlignment="Left">
-            <Button x:Name="NavigateToWebinarsButton" Content="Вебінари" Height="50" Margin="10" Click="NavigateToWebinars"/>
-            <Button x:Name="NavigateToSpeakersButton" Content="Спікери" Height="50" Margin="10" Click="NavigateToSpeakers"/>
-            <Button x:Name="NavigateToParticipantsButton" Content="Учасники" Height="50" Margin="10" Click="NavigateToParticipants"/>
-            <Button x:Name="NavigateToRegistrationsButton" Content="Реєстрації" Height="50" Margin="10" Click="NavigateToRegistrations"/>
+            <Button Content="Вебінари" Height="50" Margin="10" Click="ShowWebinars"/>
+            <Button Content="Спікери" Height="50" Margin="10" Click="ShowSpeakers"/>
+            <Button Content="Учасники" Height="50" Margin="10" Click="ShowParticipants"/>
+            <Button Content="Реєстрації" Height="50" Margin="10" Click="ShowRegistrations"/>
         </StackPanel>
 
-        <!-- Основний вміст -->
-        <Frame x:Name="MainFrame" Margin="200,0,0,0" NavigationUIVisibility="Hidden"/>
+        <!-- Головний контент для відображення представлень -->
+        <ContentControl x:Name="MainContent" Margin="200,0,0,0"/>
     </Grid>
 </Window>

@@ -1,6 +1,87 @@
-﻿<UserControl x:Class="WebinarApp.Views.UserWebinarsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Window x:Class="WebinarApp.Views.UserWebinarsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Webinars"
+        Width="800"
+        Height="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#f0f2f5">
+
+    <Window.Resources>
+        <!-- Стиль для звичайної кнопки -->
+        <Style x:Key="StandardButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#d1ad94"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="340" ShadowDepth="2" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="10" Padding="7" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ff8080"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#ff8080"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для кнопки реєстрації -->
+        <Style x:Key="RegisterButtonStyle" TargetType="Button" BasedOn="{StaticResource StandardButtonStyle}">
+            <Setter Property="Background" Value="#ffb3b3"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#CCCCCC"/>
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль заголовків колонок таблиці -->
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#7d5336"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Стиль для клітинок таблиці -->
+        <Style x:Key="CellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#d7ccc8"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#a1887f"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -8,33 +89,55 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Фільтр за категорією -->
+        <!-- Панель з фільтром за категорією -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
             <TextBlock Text="Категорія:" VerticalAlignment="Center" Margin="0,0,5,0"/>
             <ComboBox x:Name="CategoryComboBox"
                       Width="200"
-                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                       ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                       SelectionChanged="CategoryComboBox_SelectionChanged"/>
         </StackPanel>
 
         <!-- Таблиця вебінарів -->
         <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding FilteredWebinars}"
                   AutoGenerateColumns="False" CanUserSortColumns="True"
-                  SelectionMode="Single" Margin="0,10,0,10" Grid.Row="1">
+                  SelectionMode="Single" Margin="0,10,0,55" Grid.Row="1"
+                  Background="White" 
+                  RowBackground="#f5f5f5" AlternatingRowBackground="#e0e0e0"
+                  BorderBrush="Gray" BorderThickness="1"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                  CellStyle="{StaticResource CellStyle}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Детальніше" Click="ShowDetails_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Тема" Binding="{Binding Topic}" Width="*"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat={}{0:dd MMMM yyyy 'р.'}}" Width="*"/>
                 <DataGridTextColumn Header="Час початку" Binding="{Binding StartTime}" Width="*"/>
                 <DataGridTextColumn Header="Категорія" Binding="{Binding Category}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
+        <!-- Кнопка реєстрації -->
+        <Button Content="Зареєструватися" 
+         HorizontalAlignment="Left" 
+         VerticalAlignment="Top" 
+         Width="150" 
+         Style="{StaticResource RegisterButtonStyle}"
+         IsEnabled="{Binding SelectedWebinarCanRegister}" 
+         Grid.Row="1" Margin="320,417,0,0" 
+         Click="RegisterButton_Click"/>
+
         <!-- Перемикання по тижнях -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Margin="0,10,0,0">
-            <Button Content="Попередній тиждень" Command="{Binding PreviousWeekCommand}" Width="150" Margin="5"/>
+            <Button Content="Попередній тиждень" Command="{Binding PreviousWeekCommand}" Width="170" Margin="5" Style="{StaticResource StandardButtonStyle}"/>
             <TextBlock Text="{Binding CurrentWeekText}" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0"/>
-            <Button Content="Наступний тиждень" Command="{Binding NextWeekCommand}" Width="150" Margin="5"/>
+            <Button Content="Наступний тиждень" Command="{Binding NextWeekCommand}" Width="166" Margin="5" Style="{StaticResource StandardButtonStyle}"/>
         </StackPanel>
     </Grid>
-</UserControl>
+</Window>

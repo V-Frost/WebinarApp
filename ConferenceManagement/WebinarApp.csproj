@@ -127,14 +127,14 @@
     <Compile Include="Views\ParticipantsView.xaml.cs">
       <DependentUpon>ParticipantsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RegistrationWindow.xaml.cs">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SpeakersView.xaml.cs">
       <DependentUpon>SpeakersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserWebinarsView.xaml.cs">
       <DependentUpon>UserWebinarsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserWebinarsWindow.xaml.cs">
-      <DependentUpon>UserWebinarsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WebinarDetailsWindow.xaml.cs">
       <DependentUpon>WebinarDetailsWindow.xaml</DependentUpon>
@@ -169,15 +169,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RegistrationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SpeakersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserWebinarsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserWebinarsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

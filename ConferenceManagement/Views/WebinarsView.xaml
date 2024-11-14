@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:WebinarApp.Views">
     <Grid>
         <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding Webinars}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Редагувати" Click="EditMenuItem_Click"/>
+                    <MenuItem Header="Видалити" Click="DeleteMenuItem_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Тема" Binding="{Binding Topic}" Width="*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=d}" Width="*"/>

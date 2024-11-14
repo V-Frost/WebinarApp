@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using WebinarApp.Models;
-using System.ComponentModel;
 
 namespace WebinarApp.ViewModels
 {
@@ -27,6 +27,29 @@ namespace WebinarApp.ViewModels
             }
         }
 
+        private Webinar selectedWebinar;
+        public Webinar SelectedWebinar
+        {
+            get => selectedWebinar;
+            set
+            {
+                selectedWebinar = value;
+                OnPropertyChanged(nameof(SelectedWebinar));
+                OnPropertyChanged(nameof(CanRegisterForSelectedWebinar));
+            }
+        }
+
+        public bool CanRegisterForSelectedWebinar
+        {
+            get
+            {
+                if (SelectedWebinar == null)
+                    return false;
+
+                DateTime webinarStartTime = SelectedWebinar.Date + SelectedWebinar.StartTime;
+                return DateTime.Now < webinarStartTime; // Активно, якщо вебінар ще не розпочався
+            }
+        }
 
         public string CurrentWeekText => $"Тиждень: {currentWeekStart:dd.MM} - {currentWeekEnd:dd.MM}";
 
@@ -73,7 +96,6 @@ namespace WebinarApp.ViewModels
             OnPropertyChanged(nameof(SelectedCategory));
         }
 
-
         private void SetCurrentWeek(DateTime referenceDate)
         {
             currentWeekStart = referenceDate.AddDays(-(int)referenceDate.DayOfWeek);
@@ -113,13 +135,8 @@ namespace WebinarApp.ViewModels
             OnPropertyChanged(nameof(CurrentWeekText));
         }
 
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
+        protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

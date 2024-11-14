@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Navigation;
+using System.Windows.Controls;
 using WebinarApp.Views;
-using WebinarApp.Helpers; // Додаємо простір імен для доступу до Session
 
 namespace WebinarApp
 {
@@ -10,34 +9,41 @@ namespace WebinarApp
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            // Перевірка ролі користувача та приховування кнопок для звичайного користувача
-            if (Session.UserRole == "User")
+        // Обробники для кнопок навігації
+        private void ShowWebinars(object sender, RoutedEventArgs e) => MainContent.Content = new WebinarsView();
+        private void ShowSpeakers(object sender, RoutedEventArgs e) => MainContent.Content = new SpeakersView();
+        private void ShowParticipants(object sender, RoutedEventArgs e) => MainContent.Content = new ParticipantsView();
+        private void ShowRegistrations(object sender, RoutedEventArgs e) => MainContent.Content = new WebinarRegistrationsView();
+
+        // Обробники для контекстного меню
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainContent.Content is UserControl currentView &&
+                ((DataGrid)currentView.FindName("AdminDataGrid"))?.SelectedItem is var selectedItem && selectedItem != null)
             {
-                NavigateToParticipantsButton.Visibility = Visibility.Collapsed;
-                NavigateToSpeakersButton.Visibility = Visibility.Collapsed;
-                NavigateToRegistrationsButton.Visibility = Visibility.Collapsed;
+                // Дії редагування для `selectedItem`
+                MessageBox.Show($"Редагування: {selectedItem}");
+            }
+            else
+            {
+                MessageBox.Show("Виберіть рядок для редагування", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
-        private void NavigateToWebinars(object sender, RoutedEventArgs e)
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new WebinarsView());
-        }
-
-        private void NavigateToSpeakers(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new SpeakersView());
-        }
-
-        private void NavigateToParticipants(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new ParticipantsView());
-        }
-
-        private void NavigateToRegistrations(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new WebinarRegistrationsView());
+            if (MainContent.Content is UserControl currentView &&
+                ((DataGrid)currentView.FindName("AdminDataGrid"))?.SelectedItem is var selectedItem && selectedItem != null)
+            {
+                // Дії видалення для `selectedItem`
+                MessageBox.Show($"Видалення: {selectedItem}");
+            }
+            else
+            {
+                MessageBox.Show("Виберіть рядок для видалення", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
