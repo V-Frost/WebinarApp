@@ -4,25 +4,24 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Фільтри -->
             <RowDefinition Height="*" />
-            <!-- Таблиця вебінарів -->
             <RowDefinition Height="Auto" />
-            <!-- Перемикання по тижнях -->
         </Grid.RowDefinitions>
 
         <!-- Фільтр за категорією -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
             <TextBlock Text="Категорія:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <ComboBox x:Name="CategoryComboBox" Width="200" SelectedItem="{Binding SelectedCategory}" 
-                      ItemsSource="{Binding Categories}" DisplayMemberPath="CategoryName"/>
+            <ComboBox x:Name="CategoryComboBox"
+                      Width="200"
+                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                      ItemsSource="{Binding Categories}"
+                      SelectionChanged="CategoryComboBox_SelectionChanged"/>
         </StackPanel>
 
         <!-- Таблиця вебінарів -->
         <DataGrid x:Name="WebinarsDataGrid" ItemsSource="{Binding FilteredWebinars}"
-                  AutoGenerateColumns="False" CanUserSortColumns="True" 
-                  SelectionMode="Single" Margin="0,10,0,10" Grid.Row="1"
-                  MouseDoubleClick="WebinarsDataGrid_MouseDoubleClick">
+                  AutoGenerateColumns="False" CanUserSortColumns="True"
+                  SelectionMode="Single" Margin="0,10,0,10" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Тема" Binding="{Binding Topic}" Width="*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="*"/>

@@ -114,11 +114,30 @@ namespace WebinarApp.Views
                 context.SaveChanges();
             }
 
+            // Зберігаємо нового користувача в сеансі
             Session.CurrentUser = newUser;
             MessageBox.Show("Реєстрація пройшла успішно!");
 
-            this.DialogResult = true;
-            Close();
+            // Автоматично відкриваємо інтерфейс користувача після реєстрації
+            Window newWindow;
+            if (newUser.Role == "Admin")
+            {
+                newWindow = new MainWindow();
+            }
+            else
+            {
+                newWindow = new UserWebinarsWindow();
+            }
+
+            // Встановлюємо нове вікно як головне
+            Application.Current.MainWindow = newWindow;
+            newWindow.Show();
+
+            // Закриваємо вікно реєстрації
+            this.Close();
         }
     }
 }
+
+
+
