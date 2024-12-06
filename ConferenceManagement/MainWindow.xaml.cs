@@ -45,5 +45,18 @@ namespace WebinarApp
                 MessageBox.Show("Виберіть рядок для видалення", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        // Обробник кнопки виходу з облікового запису
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Ви дійсно бажаєте вийти?", "Вихід", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Закриття поточного вікна і повернення до вікна входу
+                var loginWindow = new LoginRegisterWindow();
+                loginWindow.Show();
+                Close();
+            }
+        }
     }
 }

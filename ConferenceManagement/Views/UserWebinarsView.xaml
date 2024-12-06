@@ -52,6 +52,21 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль для кнопки виходу з облікового запису -->
+        <Style x:Key="LogoutButtonStyle" TargetType="Button" BasedOn="{StaticResource StandardButtonStyle}">
+            <Setter Property="Background" Value="#cbc3c3"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="0,10,10,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#7b6b6b"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- Стиль заголовків колонок таблиці -->
         <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="Background" Value="#7d5336"/>
@@ -88,6 +103,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <!-- Кнопка виходу з облікового запису в верхньому правому куті -->
+        <Button Content="Вихід" Style="{StaticResource LogoutButtonStyle}" Click="LogoutButton_Click" Margin="18,0,0,0" Height="31" Width="52" HorizontalAlignment="Left" FontSize="12" VerticalAlignment="Center"/>
 
         <!-- Панель з фільтром за категорією -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">

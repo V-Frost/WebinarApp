@@ -15,16 +15,36 @@
         <Style TargetType="DataGrid">
             <Setter Property="ContextMenu" Value="{StaticResource UniversalContextMenu}"/>
         </Style>
+
+        <!-- Стиль для кнопки виходу -->
+        <Style x:Key="LogoutButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#292424"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ff4d4d"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
         <!-- Панель навігації -->
-        <StackPanel Orientation="Vertical" Width="200" Background="#FF2D2D30" HorizontalAlignment="Left">
+        <StackPanel Orientation="Vertical" Width="200" Background="#FF2D2D30" HorizontalAlignment="Left" VerticalAlignment="Stretch">
             <Button Content="Вебінари" Height="50" Margin="10" Click="ShowWebinars"/>
             <Button Content="Спікери" Height="50" Margin="10" Click="ShowSpeakers"/>
             <Button Content="Учасники" Height="50" Margin="10" Click="ShowParticipants"/>
             <Button Content="Реєстрації" Height="50" Margin="10" Click="ShowRegistrations"/>
+
+            <!-- Кнопка Вихід з облікового запису, прилягає до низу -->
         </StackPanel>
+        <Button Content="Вихід" Style="{StaticResource LogoutButtonStyle}" Click="LogoutButton_Click" Margin="40,0,0,17" Width="115"/>
 
         <!-- Головний контент для відображення представлень -->
         <ContentControl x:Name="MainContent" Margin="200,0,0,0"/>

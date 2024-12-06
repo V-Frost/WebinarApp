@@ -48,7 +48,6 @@ namespace WebinarApp.Views
                 }
                 else
                 {
-                    // Відкриваємо вікно реєстрації
                     var registrationWindow = new RegistrationWindow();
                     if (registrationWindow.ShowDialog() == true && registrationWindow.IsRegistered)
                     {
@@ -85,7 +84,6 @@ namespace WebinarApp.Views
             }
         }
 
-
         private void WebinarsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DataContext is UserWebinarsViewModel viewModel)
@@ -94,6 +92,16 @@ namespace WebinarApp.Views
             }
         }
 
-
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Ви дійсно бажаєте вийти?", "Вихід", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Close the current window and show the login window
+                var loginWindow = new LoginRegisterWindow();
+                loginWindow.Show();
+                Close();
+            }
+        }
     }
 }
